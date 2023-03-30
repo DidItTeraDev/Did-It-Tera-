@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><title><b>Did it Tera?</b> - Options page</title></head>
+<style>
+  body {
+    padding: 1em 1em 2em;
+    position: relative;
+  }
+  label {
+    font-size: 13px;
+  }
+  .option--row {
+    display: block;
+    margin-bottom: 1.5em;
+  }
+  #status {
+    position: absolute;
+    bottom: .25em;
+  }
+</style>
+<body>
+<div class="option--row">
+<label for="Font size">Font size:</label>
+<input id="ditFontSize" type="number" name="Font size" min="10" max="13">
+</div>
+<div class="option--row">
+  <label for="Text Color">Text color:</label>
+  <input id="ditTextColor" type="color" name="Text color" value="#000000">
+</div>
+<button id="save">Save</button>
+<div id="status"></div>
+
+<script src="scripts/options.js"></script>
+</body>
+</html>
