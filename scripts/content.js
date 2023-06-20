@@ -14,7 +14,7 @@ var roomObserver = new MutationObserver(function(mutations) {
 /**
  * Adds a style tag with rules which can't be inlined
  */
-function injectCSSStyles() {
+function injectStyles() {
     var styleElement = document.createElement('style');
 
     // Add your CSS rules to the <style> element
@@ -45,7 +45,7 @@ function injectCSSStyles() {
 
     document.head.appendChild(styleElement);
 }
-injectCSSStyles();
+injectStyles();
 
 
 
