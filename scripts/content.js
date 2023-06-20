@@ -12,7 +12,7 @@ var roomObserver = new MutationObserver(function(mutations) {
 });
 
 /**
- * Adds a style tag with rules which can't be inlined
+ * Adds a style tag with rules for close btn
  */
 function injectStyles() {
     var styleElement = document.createElement('style');
