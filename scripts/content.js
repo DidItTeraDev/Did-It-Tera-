@@ -11,6 +11,44 @@ var roomObserver = new MutationObserver(function(mutations) {
     });
 });
 
+/**
+ * Adds a style tag with rules which can't be inlined
+ */
+function injectCSSStyles() {
+    var styleElement = document.createElement('style');
+
+    // Add your CSS rules to the <style> element
+    styleElement.innerHTML = `
+        .ditCloseInfo {
+          position: absolute;
+          top: 0;
+          transform: translateY(100%);
+          opacity: 0;
+          transition: .5s ease-in-out;
+          cursor: pointer;
+        }
+        .ditCloseInfo svg {
+          width: 12px;
+        }
+        .ditTeraInfo:hover .ditCloseInfo {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .ditCloseInfo path {
+          fill: #424242;
+          transition: fill .5s ease-in-out;
+        }
+        .ditCloseInfo:hover path {
+          fill: #000;
+        }
+    `;
+
+    document.head.appendChild(styleElement);
+}
+injectCSSStyles();
+
+
+
 function getOptionsAndInitTeraObserver(el, useDifferentMethod) {
   chrome.storage.sync.get({
     ditFontSize: 11,
@@ -114,6 +152,21 @@ function appendTeraInfo(room, teraInfo, currentUser) {
     room.querySelectorAll('.innerbattle ' + bar)[0].insertAdjacentHTML('afterend', teraInfo);
 }
 
+function hideTeraInfo(elem) {
+    var teraInfo = elem.parentNode;
+    teraInfo.style.display = 'none';
+}
+// Add event listener to the DOM for clicks on elements with class '.ditCloseInfo'
+document.addEventListener('click', function(event) {
+  var clickedElem = event.target;
+  var parentElem = clickedElem.parentNode;
+  if (clickedElem.classList.contains('ditCloseInfo')) {
+      hideTeraInfo(clickedElem);
+  } else if(parentElem.classList.contains('ditCloseInfo')) {
+      hideTeraInfo(parentElem);
+  }
+});
+
 /* Pkmn info */
 /**
  * Returns pokemon name from tera text
@@ -183,7 +236,8 @@ function validatePkmnName(match, name) {
  * Returns the html for the tera info
  */
  function getTeraInfo(room, pkmName, pkmType, ditFontSize, ditTextColor, currentUser) {
-     return `<div class="teraInfo" style="width: 85px;position: absolute;${getStyleForUser(room, currentUser)};color: ${ditTextColor};text-align: left;font-size: ${ditFontSize}px;line-height: 16px;">
+     return `<div class="ditTeraInfo" style="width: 85px;position: absolute;${getStyleForUser(room, currentUser)};color: ${ditTextColor};text-align: left;font-size: ${ditFontSize}px;line-height: 16px;padding-top: 20px;">
+                <div class="ditCloseInfo"><svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 24 24"><path d="M9.03 16.03a.749.749 0 1 1-1.06-1.06l7-7a.749.749 0 1 1 1.06 1.06z"/><path d="M16.03 14.97a.749.749 0 1 1-1.06 1.06l-7-7a.749.749 0 1 1 1.06-1.06z"/><path d="M22.75 5v14A3.75 3.75 0 0 1 19 22.75H5A3.75 3.75 0 0 1 1.25 19V5A3.75 3.75 0 0 1 5 1.25h14A3.75 3.75 0 0 1 22.75 5zm-1.5 0A2.25 2.25 0 0 0 19 2.75H5A2.25 2.25 0 0 0 2.75 5v14A2.25 2.25 0 0 0 5 21.25h14A2.25 2.25 0 0 0 21.25 19z"/></svg></div>
                 <span style="word-break: break-all;"><b style="display: block;">Tera:</b>${pkmName}</span>
                 <span><b style="display: block;margin-top: 2px;">Type:</b>${pkmType}</span>
             </div>`;
