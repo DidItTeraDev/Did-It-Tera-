@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Did it Tera?",
-  "version": "0.1",
+  "version": "1.0",
   "description": "Adds an info text under the opponent's team with the name and type of the terastallized Pokémon.",
   "options_ui": {
     "page": "options.html",
