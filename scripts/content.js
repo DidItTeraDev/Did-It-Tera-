@@ -17,7 +17,6 @@ var roomObserver = new MutationObserver(function(mutations) {
 function injectStyles() {
     var styleElement = document.createElement('style');
 
-    // Add your CSS rules to the <style> element
     styleElement.innerHTML = `
         .ditCloseInfo {
           position: absolute;
